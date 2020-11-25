@@ -1,6 +1,6 @@
 # High-Density Scatter
 
-Wiht this extension a scatter plot with several tousands of point can be created. 
+With this extension a scatter plot with several tousands data points can be created. 
 
 
 ![High-Density-Scatter.gif](demo/HighDensityScatter.gif)
