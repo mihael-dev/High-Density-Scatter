@@ -326,7 +326,7 @@ define( [ "qlik"], function (qlik) {
                             markerType: {
                                 type: "string",
                                 component: "dropdown",
-                                label: "Color",
+                                label: "Marker Type",
                                 ref: "prop.markerType",
                                 options: [{
                                     value: "circle",
@@ -365,7 +365,7 @@ define( [ "qlik"], function (qlik) {
                             markerOpacity : {
                                 type: "number",
                                 component: "slider",
-                                label: "Marker 0pacity ",
+                                label: "Marker Opacity ",
                                 ref: "prop.markerOpacity",
                                 min: 0,
                                 max: 1,
@@ -453,19 +453,19 @@ define( [ "qlik"], function (qlik) {
                             }
                         }
                     },
-                    generalSettings: {
+                    Legend: {
                         type: "items",
-                        ref: "generalSettings",
-                        label: "General Settings",
+                        ref: "legend",
+                        label: "Legend",
                         items: {
-                            displayModeBar:{
+                            /*displayModeBar:{
                                 type: "string",
                                 component: "dropdown",
                                 label: "Display Mode Bar",
                                 ref: "generalSettings.displayModeBar",
                                 options: [{value:'1',label:'Always'},{value:'0',label:'on Hover'},{value:'-1',label:'Never'}],
                                 defaultValue:'0'
-                            },
+                            },*/
                             showLegend: {
                                 type: "boolean",
                                 ref: "generalSettings.showLegend",
