@@ -3,7 +3,7 @@
 	"description": "High-Density Scatter renders 10k+ points",
 	"type": "visualization",
 	"version": "1.0.0",
-	"icon": "extension",
+	"icon": "scatter-chart",
 	"author": "Mihael Radosevic",
 	"homepage": "",
 	"keywords": "qlik-sense, visualization",
