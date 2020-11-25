@@ -22,4 +22,4 @@ Add-Ons > "Reference lines": Add line here. The line geometry expects a set of c
 
 **Known Limitations:**
 - Only one high-density scatter plot per sheet is supported by the underlying JS library.
-- The extension is tested for less than 100k data points.
+- The extension is tested for less than 50k data points.
