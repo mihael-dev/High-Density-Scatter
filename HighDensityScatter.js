@@ -31,7 +31,6 @@ function ( qlik, properties, Plotly, cssContent) {
 			
 			try {
 	
-		console.log(" paint .....................................");
 			var self = this,
 				id = layout.qInfo.qId,
 				morebutton = false,
@@ -160,6 +159,7 @@ function ( qlik, properties, Plotly, cssContent) {
 				console.log("X " + X.length);
 						var datas = [];
 
+
 						
 						var i = 0;
 						var color;
@@ -221,12 +221,53 @@ function ( qlik, properties, Plotly, cssContent) {
 							//console.log(key + " = " + value);
 						});
 
+						console.log(Plotly.version)
 
-						var line = {
+						layout.refLineList.forEach( function ( lineData ) {
 
-						};
+							var lineArray = JSON.parse('[' + lineData.line.geometry +  ']');
+							var x = [];
+							var y = [];
+							var i = 0;
 
-						datas.push(line);
+							lineArray.forEach( function ( coord ) {
+								x.push(coord[0]);
+								y.push(coord[1]);
+								i++;
+							});
+
+							/*var x = lineData.xLineCoord.split(",").map(function(item) {
+								return item.trim();
+							  });
+
+							var y = lineData.yLineCoord.split(",").map(function(item) {
+								return item.trim();
+							  });*/
+
+
+							var line = {
+								x: x,
+								y: y,
+								mode: lineData.line.mode,
+								type: 'scattergl',
+								name: lineData.line.label,
+								showlegend: lineData.line.showLegend,
+								
+								line: {
+									dash: lineData.line.lineStyle,
+									width: lineData.line.width,
+									color : lineData.line.lineColor.color,
+									shape: lineData.line.shape 
+								
+								}
+							  };
+	
+							datas.push(line);
+						
+						
+						});
+						
+					
 
 						/*var data = [{
 							type: "scattergl",
@@ -313,7 +354,7 @@ function ( qlik, properties, Plotly, cssContent) {
 				
 				//loop through the rows we have and render
 				 function addtoArray() {
-					console.info("getRowCount" + self.backendApi.getRowCount());
+					//console.info("getRowCount" + self.backendApi.getRowCount());
 					 self.backendApi.eachDataRow( function ( rownum, row ) {
 								//console.info("rownum " + rownum);
 								lastrow = rownum;
@@ -345,7 +386,7 @@ function ( qlik, properties, Plotly, cssContent) {
 									}];
 									self.backendApi.getData( requestPage ).then( function ( dataPages ) {
 
-										console.log(" Page  lastrow........... "  + lastrow);
+										//console.log(" Page  lastrow........... "  + lastrow);
 											//when we get the result trigger paint again
 											//me.paint( $element );
 											addtoArray();

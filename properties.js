@@ -105,36 +105,128 @@ define( [ "qlik"], function (qlik) {
                         type: 'array',
                         ref: 'refLineList',
                         label: 'Reference Lines',
-                        itemTitleRef: 'lineLabel',
+                        itemTitleRef: 'line.label',
                         allowAdd: true,
                         allowRemove: true,
+                        allowCopy: true,
                         addTranslation: 'Add Objects',
                         
                         items: {
                             lineLable:{
                                 type:"string",
                                 label: "Line label",
-                                ref: "lineLabel",
+                                ref: "line.label",
                                 defaultValue: "",
                                 expression: "optional"
                                 
                             },
-                            xLine:{
+                            lineGeometry:{
                                 type:"string",
-                                label: "X coordinates",
-                                ref: "xLineCoord",
+                                label: "Line Geometry (e.g. [x1,y1], [x2,y2])",
+                                ref: "line.geometry",
                                 defaultValue: "",
                                 expression: "optional"
                                 
-                            },
+                            }/*,
                             yLine:{
                                 type:"string",
                                 label: "Y coordinates",
-                                ref: "yLineCoord",
+                                ref: "line.yLineCoord",
                                 defaultValue: "",
                                 expression: "optional"
                                 
+                            }*/
+                            ,
+                            LineColor: {
+                                label:"Line color",
+                                component: "color-picker",
+                                ref: "line.lineColor",
+                                type: "integer",
+                                defaultValue: {
+                                    color: "#ff5866",
+                                    index: "-1"
+                                  }
+                            },
+                            lineWidth: {
+                                type: "number",
+                                component: "slider",
+                                label: "Line width",
+                                ref: "line.width",
+                                min: 0.5,
+                                max: 10,
+                                step: 0.5,
+                                defaultValue: 1
+                            },
+                            mode: {
+                                type: "string",
+                                component: "dropdown",
+                                label: "Mode",
+                                ref: "line.mode",
+                                options: [{
+                                    value: "lines",
+                                    label: "Lines"
+                                }, {
+                                    value: "markers",
+                                    label: "Markers"
+                                }, {
+                                    value: "lines+markers",
+                                    label: "Lines+markers"
+                                }],
+                                defaultValue: "lines"
+                            },
+                            lineStyle: {
+                                type: "string",
+                                component: "dropdown",
+                                label: "Line style",
+                                ref: "line.lineStyle",
+                                options: [{
+                                    value: "solid",
+                                    label: "Solid"
+                                }, {
+                                    value: "dot",
+                                    label: "Dot"
+                                }, {
+                                    value: "dashdot",
+                                    label: "Dashdot"
+                                }, {
+                                    value: "longdash",
+                                    label: "Longdash"
+                                }],
+                                defaultValue: "solid"
+                            },
+                            lineShape: {
+                                type: "string",
+                                component: "dropdown",
+                                label: "Line shape",
+                                ref: "line.shape",
+                                options: [{
+                                    value: "linear",
+                                    label: "linear"
+                                }, {
+                                    value: "spline",
+                                    label: "spline"
+                                }, {
+                                    value: "vhv",
+                                    label: "vhv"
+                                }, {
+                                    value: "hvh",
+                                    label: "hvh"
+                                }, {
+                                    value: "vh",
+                                    label: "vh"
+                                }, {
+                                    value: "hv",
+                                    label: "hv"
+                                }],
+                                defaultValue: "linear"
+                            },
+                            showlegend: {
+                                type: "boolean",
+                                label: "Show in legend",
+                                ref: "line.showLegend",
+                                defaultValue: true
                             }
+                             
 
                         }
 
@@ -189,19 +281,19 @@ define( [ "qlik"], function (qlik) {
                                         index: "-1"
                                       }
                                 },
-                               lineColor: {
-                                    label:"Line Color",
+                                lineColor: {
+                                        label:"Line Color",
 
-                                    //show: function(layout)  { if( layout.coloring.type=='single' ){ return true } else { return false } },
-                                
-                                    component: "color-picker",
-                                    ref: "prop.lineColor",
-                                    type: "integer",
-                                    defaultValue: {
-                                        color: "#7b7a78",
-                                        index: "-1"
-                                      }
-                                },
+                                        //show: function(layout)  { if( layout.coloring.type=='single' ){ return true } else { return false } },
+                                    
+                                        component: "color-picker",
+                                        ref: "prop.lineColor",
+                                        type: "integer",
+                                        defaultValue: {
+                                            color: "#7b7a78",
+                                            index: "-1"
+                                        }
+                                 },
 
                                 exprColor: {
                                     type: "boolean",
@@ -211,7 +303,7 @@ define( [ "qlik"], function (qlik) {
 									label: "The expression is a color code",
 									defaultValue: true
                                 },
-                                ColorPalette:{
+                                colorPalette:{
                                     type:"string",
                                     show: function(layout)  { if( layout.coloring.type=='exp' && layout.prop.colorCode == false ){ return true } else { return false } },
                                     label: "Color Pallette (e.g. #ff0000,#00ff00)",
@@ -231,7 +323,7 @@ define( [ "qlik"], function (qlik) {
                         ref: "generalSettings",
                         label: "Marker",
                         items: {
-                            MarkerType: {
+                            markerType: {
                                 type: "string",
                                 component: "dropdown",
                                 label: "Color",
@@ -260,7 +352,7 @@ define( [ "qlik"], function (qlik) {
                                 }],
                                 defaultValue: "circle"
                             },
-                            MarkerSize: {
+                            markerSize: {
                                 type: "number",
                                 component: "slider",
                                 label: "Marker Size",
@@ -270,7 +362,7 @@ define( [ "qlik"], function (qlik) {
                                 step: 1,
                                 defaultValue: 10
                             },
-                            MarkerOpacity : {
+                            markerOpacity : {
                                 type: "number",
                                 component: "slider",
                                 label: "Marker 0pacity ",
@@ -283,7 +375,7 @@ define( [ "qlik"], function (qlik) {
 
                         }
                     },
-                    XAxisSettings: {
+                    xAxisSettings: {
                         type: "items",
                         ref: "xAxisSettings",
                         label: "X Axis",
@@ -322,7 +414,7 @@ define( [ "qlik"], function (qlik) {
                             }
                         }
                     },
-                    YAxisSettings: {
+                    yAxisSettings: {
                         type: "items",
                         ref: "yAxisSettings",
                         label: "Y Axis",
@@ -361,18 +453,18 @@ define( [ "qlik"], function (qlik) {
                             }
                         }
                     },
-                    GeneralSettings: {
+                    generalSettings: {
                         type: "items",
                         ref: "generalSettings",
                         label: "General Settings",
                         items: {
-                            DisplayModeBar:{
-                            type: "string",
-                            component: "dropdown",
-                            label: "Display Mode Bar",
-                            ref: "generalSettings.displayModeBar",
-                            options: [{value:'1',label:'Always'},{value:'0',label:'on Hover'},{value:'-1',label:'Never'}],
-                            defaultValue:'0'
+                            displayModeBar:{
+                                type: "string",
+                                component: "dropdown",
+                                label: "Display Mode Bar",
+                                ref: "generalSettings.displayModeBar",
+                                options: [{value:'1',label:'Always'},{value:'0',label:'on Hover'},{value:'-1',label:'Never'}],
+                                defaultValue:'0'
                             },
                             showLegend: {
                                 type: "boolean",
