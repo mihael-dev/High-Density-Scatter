@@ -9,7 +9,7 @@ The extension is based on https://plotly.com/javascript/.
 The library supports WebGL for rendering.
 
 
-**Special Configuration:**
+**Tips for configuration:**
 
 Add-Ons > "Max Records": Default 5000. Increase the number to see more points in the chart.
 
