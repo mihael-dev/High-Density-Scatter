@@ -12,8 +12,9 @@ The library supports WebGL for rendering.
 Special Configuration: 
 
 Add-Ons > "Max Records": Default 5000. Increase the number to see more points in the chart.
+
 Add-Ons > "Reference lines": Add line here. The line geometry expects a set of coordinates.
-    e.g. [x1, y1],[x2, y2] creates a straight line. Further  examples are in the attached Qlik Sense app.  
+	e.g. [x1, y1],[x2, y2] creates a straight line. Further  examples are in the attached Qlik Sense app.  
 
 
 
