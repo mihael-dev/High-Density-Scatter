@@ -9,7 +9,7 @@ The extension is based on https://plotly.com/javascript/.
 The library supports WebGL for rendering.
 
 
-Special Configuration: 
+**Special Configuration:**
 
 Add-Ons > "Max Records": Default 5000. Increase the number to see more points in the chart.
 
@@ -20,6 +20,6 @@ Add-Ons > "Reference lines": Add line here. The line geometry expects a set of c
 
 
 
-Known Limitations:
+**Known Limitations:**
 - One scatter plot per sheet is supported by the underlying JS library.
 - The extension is tested for less than 100k data points.
