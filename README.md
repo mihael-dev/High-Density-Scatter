@@ -17,7 +17,8 @@ Add-Ons > "Reference lines": Add line here. The line geometry expects a set of c
 	e.g. [x1, y1],[x2, y2] creates a straight line. Further  examples are in the attached Qlik Sense app.  
 
 
-
+**Referenence Lines Examples**
+![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/RefLines.PNG)
 
 
 **Known Limitations:**
