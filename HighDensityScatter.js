@@ -116,8 +116,8 @@ function ( qlik, properties, Plotly, cssContent) {
 								map.set(key,coords)
 							}
 
-							coords[0].push(row[1].qNum);
-							coords[1].push(row[2].qNum);
+							coords[0].push(row[1].qText);
+							coords[1].push(row[2].qText);
 							coords[2].push(row[0].qText);
 							coords[3].push(row[0].qElemNumber);
 
