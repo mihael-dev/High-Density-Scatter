@@ -1,4 +1,4 @@
-# High-Density-Scatter
+# High-Density Scatter
 
 Wiht this extension a scatter plot with several tousands of point can be created. 
 
