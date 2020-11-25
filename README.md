@@ -1,4 +1,4 @@
-# High-Density Scatter Plpt for Qlik Sense
+# High-Density Scatter Plot for Qlik Sense
 
 With this Qlik Sense extension a high-density scatter plot with several tousands data points can be created. 
 
