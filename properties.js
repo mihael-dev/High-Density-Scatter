@@ -20,10 +20,38 @@ define( [ "qlik"], function (qlik) {
         type: "items",
         component: "accordion",
         items: {
+
+          
+            vizType: {
+                type: "items",
+                ref: "generalSettings",
+                label: "Viz Type",
+                items: {
+                    vizTypeRadio: {
+                        type: "string",
+                        component: "radiobuttons",
+                        label: "Viz Type",
+                        ref: "prop.VizType",
+                        options: [{
+                            value: "scatter",
+                            label: "Scatter"
+                        }, {
+                            value: "line",
+                            label: "Line"
+                        }],
+                        defaultValue: "scatter"
+                    }
+                }
+            },
+            
+            
+
             dimensions: {
                 uses: "dimensions",
                 min: 1,
-                max: 1/*,
+                max: 1
+                
+                /*,
                 items: {
                     colorExpression:{
                     
@@ -101,10 +129,18 @@ define( [ "qlik"], function (qlik) {
                     dataHandling: {
                         uses: "dataHandling"
                     },
+                    maxRecord:{
+                        type:"integer",
+                        label: "Max records",
+                        ref: "maxRecord",
+                        defaultValue: "5000",
+                        expression: "optional"
+                        
+                    },
                     referenceLines: {
                         type: 'array',
                         ref: 'refLineList',
-                        label: 'Reference Lines',
+                        label: 'Reference lines',
                         itemTitleRef: 'line.label',
                         allowAdd: true,
                         allowRemove: true,
@@ -230,14 +266,6 @@ define( [ "qlik"], function (qlik) {
 
                         }
 
-                    },
-                    maxRecord:{
-                        type:"integer",
-                        label: "Max Records",
-                        ref: "maxRecord",
-                        defaultValue: "5000",
-                        expression: "optional"
-                        
                     }
                     
                 }
@@ -387,6 +415,40 @@ define( [ "qlik"], function (qlik) {
                                 expression: "always"
                                 
                             },
+                            xAxisType: {
+                                type: "string",
+                                component: "dropdown",
+                                label: "Axis Type",
+                                ref: "xAxisSettings.type",
+                                options: [{
+                                    value: "-",
+                                    label: "auto"
+                                }, {
+                                    value: "linear",
+                                    label: "linear"
+                                }, {
+                                    value: "log",
+                                    label: "log"
+                                }, {
+                                    value: "date",
+                                    label: "date"
+                                }, {
+                                    value: "category",
+                                    label: "category"
+                                }, {
+                                    value: "multicategory",
+                                    label: "multicategory"
+                                }],
+                                defaultValue: "-"
+                            },
+                            xTickFormat:{
+                                type:"string",
+                                label: "D3.js Tick Label Format (e.g. %Y-%m-%d)",
+                                ref: "xAxisSettings.tickFormat",
+                                defaultValue: "",
+                                expression: "optional"
+                                
+                            },
                             showGrid: {
                                 type: "boolean",
                                 ref: "xAxisSettings.showGrid",
@@ -404,7 +466,7 @@ define( [ "qlik"], function (qlik) {
                                 type: "boolean",
                                 label: "Show Zero Line",
                                 ref: "xAxisSettings.showZeroLine",
-                                defaultValue:true
+                                defaultValue:false
                             },
                             showTicklabels: {
                                 type: "boolean",
@@ -426,6 +488,40 @@ define( [ "qlik"], function (qlik) {
                                 expression: "always"
                                 
                             },
+                            yAxisType: {
+                                type: "string",
+                                component: "dropdown",
+                                label: "Axis Type",
+                                ref: "yAxisSettings.type",
+                                options: [{
+                                    value: "-",
+                                    label: "auto"
+                                }, {
+                                    value: "linear",
+                                    label: "linear"
+                                }, {
+                                    value: "log",
+                                    label: "log"
+                                }, {
+                                    value: "date",
+                                    label: "date"
+                                }, {
+                                    value: "category",
+                                    label: "category"
+                                }, {
+                                    value: "multicategory",
+                                    label: "multicategory"
+                                }],
+                                defaultValue: "-"
+                            },
+                            yTickFormat:{
+                                type:"string",
+                                label: "D3.js Tick Label Format (e.g. %Y-%m-/%d/)",
+                                ref: "yAxisSettings.tickFormat",
+                                defaultValue: "",
+                                expression: "optional"
+                                
+                            },
                             showGrid: {
                                 type: "boolean",
                                 ref: "yAxisSettings.showGrid",
@@ -443,7 +539,7 @@ define( [ "qlik"], function (qlik) {
                                 type: "boolean",
                                 label: "Show Zero Line",
                                 ref: "yAxisSettings.showZeroLine",
-                                defaultValue:true
+                                defaultValue:false
                             },
                             showTicklabels: {
                                 type: "boolean",
