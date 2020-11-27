@@ -32,4 +32,4 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Define the date format. D3 formats ar
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/distributionPlot.PNG)
 
 **Known Limitations:**
-- The extension is tested with less than ~100k data points.
+- The extension is tested with  ~100k data points.
