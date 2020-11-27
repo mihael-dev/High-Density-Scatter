@@ -22,7 +22,7 @@ define( [ "qlik"], function (qlik) {
         items: {
 
           
-            vizType: {
+          /*  vizType: {
                 type: "items",
                 ref: "generalSettings",
                 label: "Viz Type",
@@ -42,7 +42,7 @@ define( [ "qlik"], function (qlik) {
                         defaultValue: "scatter"
                     }
                 }
-            },
+            },*/
             
             
 
@@ -410,6 +410,7 @@ define( [ "qlik"], function (qlik) {
                         items: {
                             xTitle:{
                                 type:"string",
+                                label: "Title",
                                 ref: "xAxisSettings.xTitle",
                                 defaultValue:"",
                                 expression: "always"
@@ -417,6 +418,7 @@ define( [ "qlik"], function (qlik) {
                             },
                             xAxisType: {
                                 type: "string",
+                                
                                 component: "dropdown",
                                 label: "Axis Type",
                                 ref: "xAxisSettings.type",
@@ -483,6 +485,7 @@ define( [ "qlik"], function (qlik) {
                         items: {
                             yTitle:{
                                 type:"string",
+                                label: "Title",
                                 ref: "yAxisSettings.yTitle",
                                 defaultValue:"",
                                 expression: "always"
