@@ -23,19 +23,21 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Define the date format. D3 formats ar
 	Dates: https://github.com/d3/d3-time-format
 	Numbers: https://github.com/d3/d3-format/blob/master/README.md#locale_format
 	
+	
 <br /><br />	
 
 
 
-**Referenence Lines Examples:**
+**Reference Lines Examples:**
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/RefLines.PNG)
 
 <br /><br />
 
-**Distribition Plot Examples:**
+**Distribution Plot Examples:**
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/distributionPlot.PNG)
 
 <br /><br />
 
 **Known Limitations:**
 - The extension is tested with  ~100k data points.
+- Number formats in the measure are ignored. Use Tick format at the X Axis/Y Axis configuration instead. Format D3.js
