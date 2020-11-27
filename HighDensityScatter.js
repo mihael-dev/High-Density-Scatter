@@ -140,7 +140,7 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 
 
 							// Date conversion X
-							if (layout.xAxisSettings.type == 'date' && meaXFormatType == 'D' && row[1].qNum != 'NaN') {
+							if (layout.xAxisSettings.type == 'date' && row[1].qNum != 'NaN') {
 								// Qlik Date Date(0) = 30.12.1899 > Java Script data Date(0) = 01.01.1970
 								var qlikDateMillis = (row[1].qNum - 25569) * 24 * 60 * 60 * 1000;
 								// remove the calculation in local time
@@ -157,7 +157,7 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 							}
 
 							// Date conversion Y
-							if (layout.yAxisSettings.type == 'date' ||  meaYFormatType == 'D' && row[2].qNum != 'NaN') {
+							if (layout.yAxisSettings.type == 'date' && row[2].qNum != 'NaN') {
 								// Qlik Date Date(0) = 30.12.1899 > Java Script data Date(0) = 01.01.1970
 								var qlikDateMillis = (row[2].qNum - 25569) * 24 * 60 * 60 * 1000;
 								// remove the calculation in local time

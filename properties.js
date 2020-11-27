@@ -519,7 +519,7 @@ define( [ "qlik"], function (qlik) {
                             },
                             yTickFormat:{
                                 type:"string",
-                                label: "D3.js Tick Label Format (e.g. %Y-%m-/%d/)",
+                                label: "Tick Label Format-D3.js (e.g. %Y-%m-/%d/)",
                                 ref: "yAxisSettings.tickFormat",
                                 defaultValue: "",
                                 expression: "optional"
