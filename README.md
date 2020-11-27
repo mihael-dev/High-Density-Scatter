@@ -40,4 +40,4 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Define the date format. D3 formats ar
 
 **Known Limitations:**
 - The extension is tested with  ~100k data points.
-- Number formats in the measure are ignored. Use Tick format at the X Axis/Y Axis configuration instead. Format D3.js
+- Number formats in the measures are ignored. Use Tick Format at the X Axis/Y Axis configuration instead. Format D3.js
