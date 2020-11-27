@@ -16,11 +16,20 @@ Add-Ons > "Max Records": Default 5000. Increase the number to see more points in
 Add-Ons > "Reference lines": Add line here. The line geometry expects a set of coordinates.
 	e.g. [x1, y1],[x2, y2] creates a straight line. Further  examples are in the attached Qlik Sense app.  
 
+X Axis/Y Axis > "Tick Label Format-D3.js": Define the date format. D3 formats are uses for formatting.
+	e.g. "YYYY-MM-DD hh:mm" > D3: "%Y-%d-%m %H:%M" 
+	e.g. "#,##0.00" > ",.2f"
+	Dates: https://github.com/d3/d3-time-format
+	Numbers: https://github.com/d3/d3-format/blob/master/README.md#locale_format
+	
+	
+
 
 **Referenence Lines Examples:**
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/RefLines.PNG)
 
+**Distribition Plot Examples:**
+![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/distributionPlot.PNG)
 
 **Known Limitations:**
-- Only one high-density scatter plot per sheet is supported by the underlying JS library.
-- The extension is tested for less than 50k data points.
+- The extension is tested with less than ~100k data points.
