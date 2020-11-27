@@ -140,22 +140,36 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 
 
 							// Date conversion X
-							if (layout.xAxisSettings.type == 'date' && meaXFormatType == 'D') {
+							if (layout.xAxisSettings.type == 'date' && meaXFormatType == 'D' && row[1].qNum != 'NaN') {
 								// Qlik Date Date(0) = 30.12.1899 > Java Script data Date(0) = 01.01.1970
-								var qlikDateMillis = (row[1].qNum - 25569) * 24 * 60 * 60 * 1000
+								var qlikDateMillis = (row[1].qNum - 25569) * 24 * 60 * 60 * 1000;
+								// remove the calculation in local time
+								qlikDateMillis = qlikDateMillis + new Date().getTimezoneOffset() * 60 * 1000;
+								
 								coords[0].push(qlikDateMillis);
 
 							} else {
-								coords[0].push(row[1].qNum);
+								if (row[1].qNum != 'NaN') {
+									coords[0].push(row[1].qNum);
+								} else {
+									coords[0].push(row[1].qText);
+								}
 							}
 
 							// Date conversion Y
-							if (layout.yAxisSettings.type == 'date' && meaYFormatType == 'D') {
+							if (layout.yAxisSettings.type == 'date' ||  meaYFormatType == 'D' && row[2].qNum != 'NaN') {
 								// Qlik Date Date(0) = 30.12.1899 > Java Script data Date(0) = 01.01.1970
-								var qlikDateMillis = (row[2].qNum - 25569) * 24 * 60 * 60 * 1000
+								var qlikDateMillis = (row[2].qNum - 25569) * 24 * 60 * 60 * 1000;
+								// remove the calculation in local time
+								qlikDateMillis = qlikDateMillis + new Date().getTimezoneOffset() * 60 * 1000;
+
 								coords[1].push(qlikDateMillis);
 							} else {
-								coords[1].push(row[2].qNum);
+								if (row[2].qNum != 'NaN') {
+									coords[1].push(row[2].qNum);
+								} else {
+									coords[1].push(row[2].qText);
+								}
 							}
 
 							// add labels
