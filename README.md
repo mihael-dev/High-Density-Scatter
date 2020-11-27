@@ -8,7 +8,7 @@ With this Qlik Sense extension a high-density scatter plot with several tousands
 The extension is based on https://plotly.com/javascript/.
 The library supports WebGL for rendering.
 
-
+<br /><br />	
 
 **Tips for configuration:**
 
