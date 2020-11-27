@@ -9,6 +9,7 @@ The extension is based on https://plotly.com/javascript/.
 The library supports WebGL for rendering.
 
 
+
 **Tips for configuration:**
 
 Add-Ons > "Max Records": Default 5000. Increase the number to see more points in the chart.
@@ -25,11 +26,16 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Define the date format. D3 formats ar
 	
 
 
+
 **Referenence Lines Examples:**
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/RefLines.PNG)
 
+
+
 **Distribition Plot Examples:**
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/distributionPlot.PNG)
+
+
 
 **Known Limitations:**
 - The extension is tested with  ~100k data points.
