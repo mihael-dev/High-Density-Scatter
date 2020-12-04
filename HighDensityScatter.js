@@ -1,8 +1,8 @@
-define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
+define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css", "./locale/plotly-locale-it"   //20201201 cvh 3: including italy locations
 ],
 
 
-	function (qlik, properties, Plotly, cssContent) {
+	function (qlik, properties, Plotly, cssContent, localeIt) {
 
 		$("<style>").html(cssContent).appendTo("head");
 
@@ -88,7 +88,6 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 
 						var qtheme = await getTheme();
 
-
 						addtoArray();
 
 						await getMoreData(); //.then(() => {
@@ -97,11 +96,14 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 
 						$('#' + 'T_' + id).text('');
 
-						console.info('Rendered: ' + self.backendApi.getRowCount());
+						//console.info('Rendered: ' + self.backendApi.getRowCount());
 
+						var tooltipData = [];
+						
 						self.backendApi.eachDataRow(function (rownum, row) {
 							var coords;
 							var key;
+
 
 
 							// Color
@@ -172,6 +174,24 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 								}
 							}
 
+							//20201201 cvh 4: adding custom tooltip
+							//Tooltip
+							var tmpTooltipArray = [];
+							
+							//Loop on my attribute expressions
+							hypercube.qDimensionInfo[0].qAttrExprInfo.forEach(function (callback, key) {
+								
+								//Use tmp array for pushing array into another array
+								tmpTooltipArray.push(row[0].qAttrExps.qValues[key].qText);
+								
+							});
+							
+
+							//Final array
+							tooltipData.push(tmpTooltipArray);
+							//20201201 cvh 4: end
+						
+
 							// add labels
 							coords[2].push(row[0].qText);
 							// add qElemNumber for selection
@@ -179,6 +199,43 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 
 						});
 
+						//20201201 cvh 2: add dynamic x axis (min and max)
+						var minValxAxis;
+						var maxValxAxis;
+						if (!layout.xAxisSettings.fixedDynamicInterval) {
+							minValxAxis = layout.xAxisSettings.minInterval;
+							maxValxAxis = layout.xAxisSettings.maxInterval;
+						}
+						//20201201 cvh 2: end
+
+						//20201201 cvh 4: adding custom tooltip
+						//------ Below code works from Sep 2020 onwards (not for Feb 2020, don't know realeases bwtween Feb and Sep 2020)
+						// var tooltipLables = "";
+						// hypercube.qDimensionInfo[0].qAttrExprInfo.forEach(function (callback, key) {
+								
+						// 	//TooltipLables
+						// 	tooltipLables += '<br><b>' + callback.qFallbackTitle + ':</b> %{customdata['+ key + ']}';
+							
+						// });
+
+						//------- Below code works for Feb 2020
+						var tooltipLables = "";
+						var tooltipLabelsArray = [];
+						var i = 0;
+
+						//convert layout into array in order to check how many lables we have
+						tooltipLabelsArray = Object.keys(layout);
+
+						tooltipLabelsArray.forEach(function (callback, key) {
+							if(callback.includes('tooltip')) {
+								if(layout[callback].label.length > 0) {
+									tooltipLables += '<br><b>' + layout[callback].label + ':</b> %{customdata['+ i + ']}';
+									i++;
+								}
+							}
+						});
+
+						//20201201 cvh 4: end
 
 
 						var graph_layout = {
@@ -218,7 +275,10 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 								font: {
 									color: qtheme.getStyle('object', 'axis.label.name', 'color'),
 									size: qtheme.getStyle('object', 'axis.label.name', 'fontSize')
-								}
+								},
+								//20201201 cvh 2: add dynamic x axis (min and max)
+								range: [minValxAxis, maxValxAxis]
+								//20201201 cvh 2: end
 							},
 							yaxis: {
 								type: layout.yAxisSettings.type,
@@ -272,9 +332,8 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 							} else if (layout.coloring.type == 'dim') {
 								color = palette[i % palette.length];
 							}
-
-
-
+							
+							
 							var data = {
 								type: "scattergl",
 
@@ -286,21 +345,28 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 									size: layout.prop.markerSize,
 									opacity: layout.prop.markerOpacity,
 									symbol: layout.prop.markerType,
-									line: {
-										width: 1,
-										color: layout.prop.lineColor.color
-									}//qtheme.properties.dataColors.primaryColor
+									//20201201 cvh 1: commented due to border outside marker
+									//line: {
+									//	width: 1,
+									//	color: layout.prop.lineColor.color
+									//}//qtheme.properties.dataColors.primaryColor
+									//20201201 cvh 1: end
 								},
 								x: coords[0],
 								y: coords[1],
 								text: coords[2],
+								// numero di array = numero di punti x y
+								//all'interno di ogni array tante voci quanti sono i tooltip
+								//customdata: [['tooltip 1', 'tooltip 2'], ['tooltip 10']], //20201201 cvh 4: adding custom tooltip
+								customdata: tooltipData,
 								qElementNumber: coords[3],
 								textposition: "middle center",
 
 								hoverlabel: { bgcolor: "#535353", font: { color: "#ffffff" } },
 								hovertemplate: '<b>' + dimTitle + ':</b> %{text}' +
 									'<br><b>' + meaX + ':</b> %{x}' +
-									'<br><b>' + meaY + ':</b> %{y}'
+									'<br><b>' + meaY + ':</b> %{y}' +
+									tooltipLables										//20201201 cvh 4: adding custom tooltip
 							}
 
 							datas.push(data);
@@ -348,13 +414,24 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 
 						let modeBarButtons = [["pan2d", "select2d", "lasso2d", "zoom2d", "resetScale2d"]];
 
+						//20201201 cvh 3: including locations
+						//Defualt language
+						var lang = "en-US";
+						//Browser language
+						var userLang = (navigator.language || navigator.userLanguage).substring(0,2);
 
+						if (userLang != "en") {
+							//Getting browser language. You need to include your language plotly js (e.g. plotly-locale-it.js)
+							lang = userLang;
+						}
+						
 						var config = {
 							scrollZoom: true,
 							displaylogo: false,
-							modeBarButtons: modeBarButtons
+							modeBarButtons: modeBarButtons,
+							locale: lang
 						};
-
+						//20201201 cvh 3: end
 						
 
 						Plotly.newPlot(TESTER, datas, graph_layout, config);
