@@ -71,7 +71,7 @@ define( [ "qlik"], function (qlik) {
                 uses: "measures",
             
                 min: 2,
-                max: 4
+                max: 4,
                 /*items: {
                     colorExpression:{
                     
@@ -79,15 +79,15 @@ define( [ "qlik"], function (qlik) {
                         
                         label: "Color by expression",
                         
-                        ref:"qAttributeExpressions.1.qExpression",
+                        ref:"qAttributeExpressions.0.qExpression",
                         
                         expression:"optional"
                     
                     }
                     
-                }*/
+                }
 
-                /*items: {
+                items: {
 
                     /*singleColor: {
                         label:"Single Color",
@@ -475,7 +475,43 @@ define( [ "qlik"], function (qlik) {
                                 label: "Show Tick Labels",
                                 ref: "xAxisSettings.showTicklabels",
                                 defaultValue: true
-                            }
+                            },
+                            //20201201 cvh 2: add dynamic x axis (min and max)
+                            fixedDynamicInterval: {
+                                type: "boolean",
+                                component: "switch",
+                                label: "Fixed Interval",
+                                ref: "xAxisSettings.fixedDynamicInterval",
+                                options: [{
+                                    value: true,
+                                    label: "Fixed"
+                                }, {
+                                    value: false,
+                                    label: "Dynamic"
+                                }],
+                                defaultValue: true
+                            },
+                            minIntervalAxis: {
+                                type: "string",
+                                label: "Min",
+                                ref: "xAxisSettings.minInterval",
+                                expression: "always",
+                                defaultValue: "",
+                                show: function (data) {
+                                  return !data.xAxisSettings.fixedDynamicInterval;
+                                }
+                            },
+                            maxIntervalAxis: {
+                                type: "string",
+                                label: "Max",
+                                ref: "xAxisSettings.maxInterval",
+                                expression: "always",
+                                defaultValue: "",
+                                show: function (data) {
+                                  return !data.xAxisSettings.fixedDynamicInterval;
+                                }
+                            },
+                            //20201201 cvh 2: end
                         }
                     },
                     yAxisSettings: {
@@ -552,6 +588,127 @@ define( [ "qlik"], function (qlik) {
                             }
                         }
                     },
+                    //20201201 cvh 4: adding custom tooltip
+                    //"uses: tooltip" works for Sep 2020, not for Feb 2020 patch 4 (customer version)
+                    // tooltip: {
+                    //     uses: "tooltip"
+                    // },
+
+                    Tooltip: {
+                        type: "items",
+                        ref: "tooltip",
+                        label: "Tooltip",
+                        items: {
+                            Tooltip1: {
+                                type: "items",
+                                ref: "tooltip1",
+                                label: "Tooltip 1",
+                                items: {
+                                    Tooltip1Measure: {
+                                        type: "string",
+                                        label: "Tooltip 1 Measure",
+                                        ref:"qHyperCubeDef.qDimensions.0.qAttributeExpressions.0.qExpression",
+                                        expression: "optional",
+                                        defaultValue: ""
+                                    },
+                                    Tooltip1Label: {
+                                        type: "string",
+                                        label: "Tooltip 1 Label",
+                                        ref:"tooltip1.label",
+                                        expression: "optional",
+                                        defaultValue: ""
+                                    }
+                                }
+                            
+                            },
+                            Tooltip2: {
+                                type: "items",
+                                ref: "tooltip2",
+                                label: "Tooltip 2",
+                                items: {
+                                    Tooltip2Measure: {
+                                        type: "string",
+                                        label: "Tooltip 2 Measure",
+                                        ref:"qHyperCubeDef.qDimensions.0.qAttributeExpressions.1.qExpression",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    },
+                                    Tooltip2Label: {
+                                        type: "string",
+                                        label: "Tooltip 2 Label",
+                                        ref:"tooltip2.label",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    }
+                                }                            
+                            },
+                            Tooltip3: {
+                                type: "items",
+                                ref: "tooltip3",
+                                label: "Tooltip 3",
+                                items: {
+                                    Tooltip3Measure: {
+                                        type: "string",
+                                        label: "Tooltip 3 Measure",
+                                        ref:"qHyperCubeDef.qDimensions.0.qAttributeExpressions.2.qExpression",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    },
+                                    Tooltip3Label: {
+                                        type: "string",
+                                        label: "Tooltip 3 Label",
+                                        ref:"tooltip3.label",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    }
+                                }                            
+                            },
+                            Tooltip4: {
+                                type: "items",
+                                ref: "Tooltip4",
+                                label: "Tooltip 4",
+                                items: {
+                                    Tooltip4Measure: {
+                                        type: "string",
+                                        label: "Tooltip 4 Measure",
+                                        ref:"qHyperCubeDef.qDimensions.0.qAttributeExpressions.3.qExpression",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    },
+                                    Tooltip4Label: {
+                                        type: "string",
+                                        label: "Tooltip 4 Label",
+                                        ref:"tooltip4.label",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    }
+                                }                            
+                            },
+                            Tooltip5: {
+                                type: "items",
+                                ref: "Tooltip5",
+                                label: "Tooltip 5",
+                                items: {
+                                    Tooltip5Measure: {
+                                        type: "string",
+                                        label: "Tooltip 5 Measure",
+                                        ref:"qHyperCubeDef.qDimensions.0.qAttributeExpressions.4.qExpression",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    },
+                                    Tooltip5Label: {
+                                        type: "string",
+                                        label: "Tooltip 5 Label",
+                                        ref:"tooltip5.label",
+                                        expression:"optional",
+                                        defaultValue: ""
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+
+                    //20201201 cvh 4: end
                     Legend: {
                         type: "items",
                         ref: "legend",
