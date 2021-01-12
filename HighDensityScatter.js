@@ -1,14 +1,15 @@
-define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
+define(["qlik", "./definition", "./HighDensityChartBase", "./lib/plotly-latest.min", "text!./style.css"
 ],
 
 
-	function (qlik, properties, Plotly, cssContent) {
+	function (qlik, definition, highDensityChartBase, Plotly, cssContent) {
 
 		$("<style>").html(cssContent).appendTo("head");
 
 		return {
 			initialProperties: {
 				refLineList: [],
+				shapes: [],
 				qHyperCubeDef: {
 					qDimensions: [],
 					qMeasures: [],
@@ -19,452 +20,71 @@ define(["qlik", "./properties", "./plotly-latest.min", "text!./style.css"
 				},
 				selectionMode: "CONFIRM"
 			},
-			definition: properties,
+			//template: template,	
+			definition: definition,
 
 			support: {
 				snapshot: true,
 				export: true,
-				exportData: false
+				exportData: true
 			},
+			controller: ['$scope', function ($scope) {
+
+				$scope.selectedElements = new Map();
+
+			}],
+
 			paint: function ($element, layout) {
 
+				
+				var self = this;
+				var id = layout.qInfo.qId;
 
-				try {
+				
+				if (document.getElementById('T_' + id) == null) {
+                    //let html = '<div id=' + 'T_' + id + ' style="width:100%;height:100%;"></div>';
 
-					var self = this,
-						id = layout.qInfo.qId,
-						morebutton = false,
-						hypercube = layout.qHyperCube,
-						rowcount = hypercube.qDataPages[0].qMatrix.length,
-						colcount = hypercube.qDimensionInfo.length + hypercube.qMeasureInfo.length,
-						dimTitle = hypercube.qDimensionInfo[0].qFallbackTitle,
+                    let html = '<div id=' + 'T_' + id + ' style="width:100%;height:100%;">'
+                        + '<div class="render-highdensity" id=' + 'Render_' + id + '><div class="center"><b>Rendering...</b></div></div></div>';
 
-						meaX = hypercube.qMeasureInfo[0].qFallbackTitle,
-						meaXFormatType = hypercube.qMeasureInfo[0].qNumFormat.qType,
-						meaXFormatFmt = hypercube.qMeasureInfo[0].qNumFormat.qFmt,
-						
+                        
+                    /*if (rowcount > layout.maxRecord) {
+                        html += '<div class="render-message">* Currently showing a limited data set. Add-Ons > Max Records</div>';
+                    } */   
+                    $element.html(html);
+                } else {
+                    $('#' + 'Render_' + id).show();
 
-						meaY = hypercube.qMeasureInfo[1].qFallbackTitle,
-						meaYFormatType = hypercube.qMeasureInfo[1].qNumFormat.qType,
-						meaYFormatFmt = hypercube.qMeasureInfo[1].qNumFormat.qFmt,
-						
-						app = qlik.currApp(this),
-						extensionNamespace = "object.High-Density Scatter";
+                }
 
+                var TESTER = document.getElementById('T_' + id);
 
-					var lastrow = 0
-					var X = [],
-						Y = [];
 
-					var pointMap = new Map();
+				highDensityChartBase.createPlot($element, layout, self, TESTER, "scatter").then(function() {
 
+					//needed for export
+					$('#' + 'Render_' + id).hide();
 
-					$element.html('<div id=' + 'T_' + id + ' style="width:100%;height:100%;"><div class="center" >rendering....</span></div>');
+					return qlik.Promise.resolve();
+				});
 
 
-					//return;
+				
+			},
 
-					createPlot();
+			resize: function($element, layout) {
 
-
-
-
-					function getTheme() {
-						return new Promise(resolve => {
-							app.theme.getApplied().then(function (qtheme) {
-
-
-								//	countToTen().then(() => console.log("i ended up at: " + i));
-
-								resolve(qtheme);
-
-							});
-						});
-					}
-
-					async function createPlot() {
-
-						var TESTER = document.getElementById('T_' + id);
-
-						var qtheme = await getTheme();
-
-
-						addtoArray();
-
-						await getMoreData(); //.then(() => {
-
-
-
-						$('#' + 'T_' + id).text('');
-
-						console.info('Rendered: ' + self.backendApi.getRowCount());
-
-						self.backendApi.eachDataRow(function (rownum, row) {
-							var coords;
-							var key;
-
-
-							// Color
-
-							if (layout.coloring.type == 'single') {
-								key = layout.prop.singleColor.color;
-
-							} else if (layout.coloring.type == 'exp') {
-
-								if (row[3] != null && row[3].qText != null) {
-									key = row[3].qText;
-								} else {
-									key = "#f1f2f3";
-								}
-
-							} else if (layout.coloring.type == 'dim') {
-
-								if (row[0].qText != null) {
-									key = row[0].qText;
-								} else {
-									key = "-";
-								}
-
-							}
-
-
-
-
-
-							if (pointMap.get(key) != null) {
-								coords = pointMap.get(key)
-							} else {
-								coords = [[], [], [], []];
-								pointMap.set(key, coords)
-							}
-
-
-							// Date conversion X
-							if (layout.xAxisSettings.type == 'date' && row[1].qNum != 'NaN') {
-								// Qlik Date Date(0) = 30.12.1899 > Java Script data Date(0) = 01.01.1970
-								var qlikDateMillis = (row[1].qNum - 25569) * 24 * 60 * 60 * 1000;
-								// remove the calculation in local time
-								qlikDateMillis = qlikDateMillis + new Date().getTimezoneOffset() * 60 * 1000;
-								
-								coords[0].push(qlikDateMillis);
-
-							} else {
-								if (row[1].qNum != 'NaN') {
-									coords[0].push(row[1].qNum);
-								} else {
-									coords[0].push(row[1].qText);
-								}
-							}
-
-							// Date conversion Y
-							if (layout.yAxisSettings.type == 'date' && row[2].qNum != 'NaN') {
-								// Qlik Date Date(0) = 30.12.1899 > Java Script data Date(0) = 01.01.1970
-								var qlikDateMillis = (row[2].qNum - 25569) * 24 * 60 * 60 * 1000;
-								// remove the calculation in local time
-								qlikDateMillis = qlikDateMillis + new Date().getTimezoneOffset() * 60 * 1000;
-
-								coords[1].push(qlikDateMillis);
-							} else {
-								if (row[2].qNum != 'NaN') {
-									coords[1].push(row[2].qNum);
-								} else {
-									coords[1].push(row[2].qText);
-								}
-							}
-
-							// add labels
-							coords[2].push(row[0].qText);
-							// add qElemNumber for selection
-							coords[3].push(row[0].qElemNumber);
-
-						});
-
-
-
-						var graph_layout = {
-							hovermode: "closest",
-							dragmode: "pan",
-							automargin: true,
-							margin: {
-								t: 50
-							},
-							/*margin: {
-								l: 20,
-								r: 20,
-								b: 50,
-								t: 50,
-								pad: 5
-							  },*/
-							font: {
-								family: qtheme.properties.fontFamily
-							},
-							showlegend: layout.generalSettings.showLegend,
-							xaxis: {
-								type: layout.xAxisSettings.type,
-								tickformat: layout.xAxisSettings.tickFormat,
-								showline: layout.xAxisSettings.showLine,
-								showgrid: layout.xAxisSettings.showGrid,
-								showticklabels: layout.xAxisSettings.showTicklabels,
-								zeroline: layout.xAxisSettings.showZeroLine,
-								linecolor: 'rgb(204,204,204)',
-								tickangle: 'auto',
-								title: {
-									text: layout.xAxisSettings.xTitle,
-									font: {
-										color: qtheme.getStyle('object', 'axis.title', 'color'),
-										size: qtheme.getStyle('object', 'axis.title', 'fontSize')
-									}
-								},
-								font: {
-									color: qtheme.getStyle('object', 'axis.label.name', 'color'),
-									size: qtheme.getStyle('object', 'axis.label.name', 'fontSize')
-								}
-							},
-							yaxis: {
-								type: layout.yAxisSettings.type,
-								tickformat: layout.yAxisSettings.tickFormat,
-								showline: layout.yAxisSettings.showLine,
-								showgrid: layout.yAxisSettings.showGrid,
-								showticklabels: layout.yAxisSettings.showTicklabels,
-								zeroline: layout.yAxisSettings.showZeroLine,
-								linecolor: 'rgb(204,204,204)',
-								tickangle: 'auto',
-								title: {
-									text: layout.yAxisSettings.yTitle,
-									font: {
-										color: qtheme.getStyle('object', 'axis.title', 'color'),
-										size: qtheme.getStyle('object', 'axis.title', 'fontSize')
-									}
-								},
-								title: layout.yAxisSettings.yTitle,
-								font: {
-									color: qtheme.getStyle('object', 'axis.label.name', 'color'),
-									size: qtheme.getStyle('object', 'axis.label.name', 'fontSize')
-								}
-							}
-						};
-
-						var datas = [];
-
-
-
-						var i = 0;
-						var color;
-						pointMap.forEach(function (coords, key) {
-							if (layout.coloring.type == 'exp' || layout.coloring.type == 'single') {
-								color = key;
-								if (layout.coloring.type == 'exp' && layout.prop.colorCode == false) {
-									var palette;
-									if (layout.prop.colorPalette != null && layout.prop.colorPalette != '') {
-										palette = layout.prop.colorPalette.split(",");
-									} else {
-										palette = qtheme.properties.palettes.data[0].scale;
-										// qtheme.properties.palettes.data[0].scale; //qtheme.properties.palettes.data.length - 1
-									}
-									// palette > data > scale can be an array
-									if (Array.isArray(palette[0])) {
-										palette = palette[Math.min(pointMap.size - 1, palette.length - 1)];
-									}
-
-
-									color = palette[i % palette.length].trim();
-								}
-							} else if (layout.coloring.type == 'dim') {
-								color = palette[i % palette.length];
-							}
-
-
-
-							var data = {
-								type: "scattergl",
-
-								//mode: "markers",
-								mode: 'markers',
-								name: key,
-								marker: {
-									color: color,
-									size: layout.prop.markerSize,
-									opacity: layout.prop.markerOpacity,
-									symbol: layout.prop.markerType,
-									line: {
-										width: 1,
-										color: layout.prop.lineColor.color
-									}//qtheme.properties.dataColors.primaryColor
-								},
-								x: coords[0],
-								y: coords[1],
-								text: coords[2],
-								qElementNumber: coords[3],
-								textposition: "middle center",
-
-								hoverlabel: { bgcolor: "#535353", font: { color: "#ffffff" } },
-								hovertemplate: '<b>' + dimTitle + ':</b> %{text}' +
-									'<br><b>' + meaX + ':</b> %{x}' +
-									'<br><b>' + meaY + ':</b> %{y}'
-							}
-
-							datas.push(data);
-							i++;
-
-							//console.log(key + " = " + value);
-						});
-
-
-
-						layout.refLineList.forEach(function (lineData) {
-
-							var lineArray = JSON.parse('[' + lineData.line.geometry + ']');
-							var x = [];
-							var y = [];
-							var i = 0;
-
-							lineArray.forEach(function (coord) {
-								x.push(coord[0]);
-								y.push(coord[1]);
-								i++;
-							});
-
-							var line = {
-								x: x,
-								y: y,
-								mode: lineData.line.mode,
-								type: 'scattergl',
-								name: lineData.line.label,
-								showlegend: lineData.line.showLegend,
-
-								line: {
-									dash: lineData.line.lineStyle,
-									width: lineData.line.width,
-									color: lineData.line.lineColor.color,
-									shape: lineData.line.shape
-
-								}
-							};
-
-							datas.push(line);
-
-
-						});
-
-						let modeBarButtons = [["pan2d", "select2d", "lasso2d", "zoom2d", "resetScale2d"]];
-
-
-						var config = {
-							scrollZoom: true,
-							displaylogo: false,
-							modeBarButtons: modeBarButtons
-						};
-
-						
-
-						Plotly.newPlot(TESTER, datas, graph_layout, config);
-
-						// select on click
-						TESTER.on('plotly_click', function (eventData) {
-							select(eventData);
-
-						});
-						// select with rectangle and lasso
-						TESTER.on('plotly_selected', function (eventData) {
-
-							select(eventData);
-
-						});
-
-
-
-						function select(data) {
-
-							var select = [];
-
-							data.points.forEach(function (pt) {
-								var elements = pt.data.qElementNumber;
-								select.push(elements[pt.pointIndex]);
-							});
-
-							self.selectValues(0, select, true);
-						}
-
-						/*TESTER.on('plotly_hover', function (eventdata) {
-							
-							var points = eventdata.points[0],
-							pointNum = points.pointNumber;
-	
-							alert(points);
-	
-							var xyField = $('.hovertext .nums').first(),
-										  commaIndex = xyField.html().indexOf(','),
-										  x = xyField.html().slice(1, commaIndex);
-							xyField.html(x);
-							
-						  })*/
-
-
-						
-						//});	
-					}
-
-
-
-
-
-					//loop through the rows we have and render
-					function addtoArray() {
-						//console.info("getRowCount" + self.backendApi.getRowCount());
-						self.backendApi.eachDataRow(function (rownum, row) {
-							//console.info("rownum " + rownum);
-							lastrow = rownum;
-							//do something with the row..
-
-						});
-
-					}
-
-
-
-
-					function getMoreData() {
-
-
-						return new Promise(resolve => {
-
-
-							if (self.backendApi.getRowCount() > lastrow + 1 && lastrow <= layout.maxRecord) {
-
-								//we havent got all the rows yet, so get some more, 1000 rows
-								var requestPage = [{
-									qTop: lastrow + 1,
-									qLeft: 0,
-									qWidth: 5, //should be # of columns
-									qHeight: Math.min(2000, self.backendApi.getRowCount() - lastrow)
-								}];
-								self.backendApi.getData(requestPage).then(function (dataPages) {
-
-									//console.log(" Page  lastrow........... "  + lastrow);
-									//when we get the result trigger paint again
-									addtoArray();
-									resolve(getMoreData());
-
-								});
-
-							} else {
-								resolve();
-							}
-						});
-					}
-
-
-
-
+				//paint($element, layout);
+				//return;
+				
+				var id = layout.qInfo.qId;
+				var TESTER = document.getElementById('T_' + id);
+				
+				if (TESTER.data != null) {
+					Plotly.Plots.resize(TESTER);
 				}
-				catch (err) {
-					console.info(err);
-				}
-
-			
-				//needed for export
-				return qlik.Promise.resolve();
 			}
+			
 		};
 
 	});
