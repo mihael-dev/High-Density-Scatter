@@ -42,4 +42,11 @@ div.render-message {
   color: rgb(123, 122, 120);
   font-style: italic;
   font-size: 13px;
-  }
+}
+
+div.hd-limited-msg {
+  position: absolute;
+  bottom: 6px;
+  font-style: italic;
+  font-size: 10px;
+}

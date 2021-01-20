@@ -1,8 +1,9 @@
-define(["qlik", "./definition", "./HighDensityChartBase", "./lib/plotly-latest.min", "text!./style.css"
+define(["qlik", "./definition", "./HighDensityChartBase", "./lib/plotly-latest.min", "text!./style.css",
+"./definitionChart"
 ],
 
 
-	function (qlik, definition, highDensityChartBase, Plotly, cssContent) {
+	function (qlik, definition, highDensityChartBase, Plotly, cssContent, definitionChart) {
 
 		$("<style>").html(cssContent).appendTo("head");
 
@@ -45,12 +46,10 @@ define(["qlik", "./definition", "./HighDensityChartBase", "./lib/plotly-latest.m
                     //let html = '<div id=' + 'T_' + id + ' style="width:100%;height:100%;"></div>';
 
                     let html = '<div id=' + 'T_' + id + ' style="width:100%;height:100%;">'
-                        + '<div class="render-highdensity" id=' + 'Render_' + id + '><div class="center"><b>Rendering...</b></div></div></div>';
-
-                        
-                    /*if (rowcount > layout.maxRecord) {
-                        html += '<div class="render-message">* Currently showing a limited data set. Add-Ons > Max Records</div>';
-                    } */   
+						+ '<div class="render-highdensity" id=' + 'Render_' + id + '><div class="center"><b>Loading...</b></div>';
+						
+					html += '</div></div><div class="hd-limited-msg"></div>';
+					
                     $element.html(html);
                 } else {
                     $('#' + 'Render_' + id).show();
@@ -60,10 +59,17 @@ define(["qlik", "./definition", "./HighDensityChartBase", "./lib/plotly-latest.m
                 var TESTER = document.getElementById('T_' + id);
 
 
-				highDensityChartBase.createPlot($element, layout, self, TESTER, "scatter").then(function() {
+				highDensityChartBase.createPlot($element, layout, self, TESTER, definitionChart.type).then(function() {
 
 					//needed for export
 					$('#' + 'Render_' + id).hide();
+
+					if (self.backendApi.getRowCount() > layout.maxRecord) { 
+						$('.hd-limited-msg').html( "* Currently showing a limited data set. See Add-Ons > Max Records" );
+					} else {
+						$('.hd-limited-msg').html('');
+					}
+
 
 					return qlik.Promise.resolve();
 				});
