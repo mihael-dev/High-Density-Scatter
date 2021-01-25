@@ -60,6 +60,6 @@ e.g. Regression, Median
 **Known Limitations:**
 - The extension is tested with  ~100k data points.
 - Number formats in the measures are ignored. Use Tick Format in the X Axis/Y Axis configuration instead. 
-- No support for colors in Maser measures and dimensions.
+- No support for colors in Master measures and dimensions.
 - No support for selections on axis and legend.
-- Printing of the high-density scatter should up to 50k points.
+- Printing of the high-density scatter should work up to 50k points.
