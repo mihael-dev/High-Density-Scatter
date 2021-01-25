@@ -26,10 +26,14 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Defines the date format for the acix.
 	
 <br /><br />	
 
+**Reference Lines / Rects:**
+![Reference Line&Rect.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Reference Line&Rect.PNG)
 
+<br /><br />
 
-**Reference Lines Examples:**
-![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/RefLines.PNG)
+**Dimensional Lines Examples:**
+e.g. Regression, Median
+![Dimensional Lines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Dimensional Lines.PNG)
 
 <br /><br />
 
@@ -38,6 +42,24 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Defines the date format for the acix.
 
 <br /><br />
 
+**Color Options:**
+![ColorOptions.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/ColorOptions.PNG)
+
+
+<br /><br />
+
+**Tooltip:**
+![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Tooltip.PNG)
+
+<br /><br />
+
+**Experimental: Max Performance Mode**
+- showcases how to create a scatter plot render with 100k+ points
+![MaxPerformanceMode.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/MaxPerformanceMode.PNG)
+
 **Known Limitations:**
 - The extension is tested with  ~100k data points.
 - Number formats in the measures are ignored. Use Tick Format in the X Axis/Y Axis configuration instead. 
+- No support for colors in Maser measures and dimensions.
+- No support for selections on axis and legend.
+- Printing of the high-density scatter should up to 50k points.
