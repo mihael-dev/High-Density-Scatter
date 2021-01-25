@@ -50,7 +50,7 @@ e.g. Regression, Median
 <br /><br />
 
 **Tooltip:**
-![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/ooltip.png)
+![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Tooltip.png)
 
 <br /><br />
 
