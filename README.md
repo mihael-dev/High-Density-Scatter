@@ -33,7 +33,7 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Defines the date format for the acix.
 
 **Dimensional Lines Examples:**
 e.g. Regression, Median
-![Dimensional Lines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Dimensional Lines.PNG)
+![Dimensional Lines.PNG]("https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Dimensional Lines.PNG")
 
 <br /><br />
 
@@ -49,7 +49,7 @@ e.g. Regression, Median
 <br /><br />
 
 **Tooltip:**
-![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Tooltip.PNG)
+![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Tooltip.png)
 
 <br /><br />
 
