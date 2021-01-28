@@ -31,14 +31,14 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Defines the date format for the acix.
 
 <br /><br />
 
-**Dimensional Lines Examples:**
+**Dimensional Lines:**
 e.g. Regression, Median
 <br />
 ![Dimensional Lines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Dimensional%20Lines.PNG)
 
 <br /><br />
 
-**Distribution Plot Examples:**
+**Distribution Plot:**
 ![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/distributionPlot.PNG)
 
 <br /><br />
