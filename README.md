@@ -3,7 +3,7 @@
 With this Qlik Sense extension a high-density scatter plot with several tousands data points can be created. 
 
 
-![High-Density-Scatter.gif](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/HighDensityScatter.gif)
+![High-Density-Scatter.gif](https://raw.githubusercontent.com/mihael-dev/DemoData/main/demo/HighDensityScatter/HighDensityScatter.gif)
 
 The extension is based on https://plotly.com/javascript/.
 The library supports WebGL for rendering.
@@ -27,37 +27,37 @@ X Axis/Y Axis > "Tick Label Format-D3.js": Defines the date format for the acix.
 <br /><br />	
 
 **Reference Lines / Rects:**
-![Reference Line&Rect.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Reference%20Line%26Rect.PNG)
+![Reference Line&Rect.PNG](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/Reference%20Line%26Rect.PNG)
 
 <br /><br />
 
 **Dimensional Lines:**
 e.g. Regression, Median
 <br />
-![Dimensional Lines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Dimensional%20Lines.PNG)
+![Dimensional Lines.PNG](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/Dimensional%20Lines.PNG)
 
 <br /><br />
 
 **Distribution Plot:**
-![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/distributionPlot.PNG)
+![RefLines.PNG](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/distributionPlot.PNG)
 
 <br /><br />
 
 **Color Options:**
-![ColorOptions.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/ColorOptions.PNG)
+![ColorOptions.PNG](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/ColorOptions.PNG)
 
 
 <br /><br />
 
 **Tooltip:**
 
-![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/Tooltip.png)
+![Tooltip.png](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/Tooltip.png)
 
 <br /><br />
 
 **Experimental: Max Performance Mode**
 - showcases how to create a scatter plot render with 100k+ points
-![MaxPerformanceMode.PNG](https://raw.githubusercontent.com/mihael-dev/High-Density-Scatter/main/demo/MaxPerformanceMode.PNG)
+![MaxPerformanceMode.PNG](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/MaxPerformanceMode.PNG)
 
 **Known Limitations:**
 - The extension is tested with  ~100k data points.
