@@ -3,7 +3,7 @@
 With this Qlik Sense extension a high-density scatter plot with several tousands data points can be created. 
 
 
-![High-Density-Scatter.gif](https://raw.githubusercontent.com/mihael-dev/DemoData/main/demo/HighDensityScatter/HighDensityScatter.gif)
+![High-Density-Scatter.gif](https://raw.githubusercontent.com/mihael-dev/DemoData/main/HighDensityScatter/HighDensityScatter.gif)
 
 The extension is based on https://plotly.com/javascript/.
 The library supports WebGL for rendering.
