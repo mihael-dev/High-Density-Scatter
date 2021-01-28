@@ -65,3 +65,4 @@ e.g. Regression, Median
 - No support for colors in Master measures and dimensions.
 - No support for selections on axis and legend.
 - Printing of the high-density scatter should work up to 50k points.
+- Extension tested with Sep2020/Nov2020 Release
