@@ -2,11 +2,16 @@ define([], function () {
     'use strict';
 
     return {
+
+        qInitialDataFetch: {
+            qWidth: 5,
+            qHeight: 2000
+        },
+
         type: "scatter",
 
-                    /*data: {
-                uses: "data"
-            }, */
+         
+
             dimensions: {
                 min: 1,
                 max: 1
