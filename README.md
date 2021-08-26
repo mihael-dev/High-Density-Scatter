@@ -78,3 +78,6 @@ e.g. Regression, Median
 - 2021-08-07: 
 	* FiX Date conversion
 	* Upgrade Plotly 2.2
+	
+- 2021-08-26: 
+	* Custom color palette for color by dimension 
